@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "EZDPP1SWF6LYYCy9tklhLIS9V2lLdMJShlxmR+C6f7Qj7roce3PBbkPnHuK8TYIWkWGp7pQ3L+LHYG09DfVzTQ==",
+  "success": true,
+  "projectFilePath": "/home/crystal/ABDULLAH/ASP_DOT_NET/dot-net-web-api/dot-net-web-api.csproj",
+  "expectedPackageFiles": [
+    "/home/crystal/.nuget/packages/microsoft.extensions.apidescription.server/6.0.5/microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "/home/crystal/.nuget/packages/microsoft.openapi/1.6.14/microsoft.openapi.1.6.14.nupkg.sha512",
+    "/home/crystal/.nuget/packages/swashbuckle.aspnetcore/6.6.2/swashbuckle.aspnetcore.6.6.2.nupkg.sha512",
+    "/home/crystal/.nuget/packages/swashbuckle.aspnetcore.swagger/6.6.2/swashbuckle.aspnetcore.swagger.6.6.2.nupkg.sha512",
+    "/home/crystal/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.6.2/swashbuckle.aspnetcore.swaggergen.6.6.2.nupkg.sha512",
+    "/home/crystal/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.6.2/swashbuckle.aspnetcore.swaggerui.6.6.2.nupkg.sha512"
+  ],
+  "logs": []
+}
