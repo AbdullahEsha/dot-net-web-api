@@ -1,0 +1,5 @@
+# .gitignore
+.env
+*.env
+# hide appsettings.json file from main directory
+appsettings.json
