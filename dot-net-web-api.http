@@ -1,6 +1,6 @@
-@dot_net_web_api_HostAddress = http://localhost:5051
+@dot_net_web_api_HostAddress = http://localhost:8080
 
-GET {{dot_net_web_api_HostAddress}}/weatherforecast/
+GET {{dot_net_web_api_HostAddress}}/test
 Accept: application/json
 
 ###

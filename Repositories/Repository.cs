@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using dot_net_web_api.Data;
+using System.Linq.Expressions;
 
 namespace dot_net_web_api.Repositories
 {
@@ -7,7 +8,7 @@ namespace dot_net_web_api.Repositories
     {
         protected readonly AppDbContext _context;
 
-        public Repository(AppDbContext context) // Ensure constructor injection
+        public Repository(AppDbContext context)
         {
             _context = context;
         }
@@ -16,25 +17,45 @@ namespace dot_net_web_api.Repositories
         {
             return await _context.Set<T>().ToListAsync();
         }
+
         public async Task<T?> GetByIdAsync(int id)
         {
             return await _context.Set<T>().FindAsync(id);
         }
+
+        public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _context.Set<T>().Where(predicate).ToListAsync();
+        }
+
         public async Task AddAsync(T entity)
         {
             await _context.Set<T>().AddAsync(entity);
         }
+
         public void Update(T entity)
         {
             _context.Set<T>().Update(entity);
         }
+
         public void Delete(T entity)
         {
             _context.Set<T>().Remove(entity);
         }
+
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> CountAsync()
+        {
+            return await _context.Set<T>().CountAsync();
+        }
+
+        public async Task<int> CountAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _context.Set<T>().CountAsync(predicate);
         }
     }
 }
