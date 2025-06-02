@@ -30,9 +30,9 @@ namespace dot_net_web_api.Data
                     .IsRequired()
                     .HasColumnType("decimal(18,2)");
                 entity.Property(e => e.StockQuantity)
-                    .IsRequired();
+                    .HasDefaultValue(0);
                 entity.Property(e => e.CreatedAt)
-                    .IsRequired();
+                    .HasDefaultValueSql("GETUTCDATE()");
             });
 
             // User configuration

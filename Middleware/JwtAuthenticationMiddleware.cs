@@ -48,6 +48,15 @@ namespace dot_net_web_api.Middleware
                 {
                     // Token validation failed, but we don't set the user
                     // Let the authorization attributes handle the unauthorized response
+                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+
+                    context.Response.ContentType = "application/json";
+                    await context.Response.WriteAsync(System.Text.Json.JsonSerializer.Serialize(new
+                    {
+                        success = false,
+                        message = "Unauthorized"
+                    }));
+                    return;
                 }
             }
 

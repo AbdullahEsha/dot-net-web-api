@@ -1,61 +1,47 @@
 using Microsoft.EntityFrameworkCore;
 using dot_net_web_api.Data;
-using System.Linq.Expressions;
 
 namespace dot_net_web_api.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        protected readonly AppDbContext _context;
+        private readonly AppDbContext _context;
+        private readonly DbSet<T> _dbSet;
 
         public Repository(AppDbContext context)
         {
             _context = context;
+            _dbSet = context.Set<T>();
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return await _context.Set<T>().ToListAsync();
+            return await _dbSet.ToListAsync();
         }
 
         public async Task<T?> GetByIdAsync(int id)
         {
-            return await _context.Set<T>().FindAsync(id);
-        }
-
-        public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
-        {
-            return await _context.Set<T>().Where(predicate).ToListAsync();
+            return await _dbSet.FindAsync(id);
         }
 
         public async Task AddAsync(T entity)
         {
-            await _context.Set<T>().AddAsync(entity);
+            await _dbSet.AddAsync(entity);
         }
 
         public void Update(T entity)
         {
-            _context.Set<T>().Update(entity);
+            _dbSet.Update(entity);
         }
 
         public void Delete(T entity)
         {
-            _context.Set<T>().Remove(entity);
+            _dbSet.Remove(entity);
         }
 
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();
-        }
-
-        public async Task<int> CountAsync()
-        {
-            return await _context.Set<T>().CountAsync();
-        }
-
-        public async Task<int> CountAsync(Expression<Func<T, bool>> predicate)
-        {
-            return await _context.Set<T>().CountAsync(predicate);
         }
     }
 }
