@@ -13,40 +13,155 @@ http://localhost:8080/swagger/index.html
    -d mcr.microsoft.com/mssql/server:2022-latest
 -->
 
-# Get all products with pagination
+## API Endpoints
 
+### Authentication
+
+- **POST** `/api/auth/register` - Register new user
+- **POST** `/api/auth/login` - Login user
+- **POST** `/api/auth/refresh-token` - Refresh access token
+- **POST** `/api/auth/revoke-token` - Revoke specific refresh token
+- **POST** `/api/auth/revoke-all-tokens` - Revoke all user tokens
+- **GET** `/api/auth/me` - Get current user info (requires authentication)
+
+### Products (All require authentication)
+
+- **GET** `/api/products` - Get products with optional filtering/pagination
+- **POST** `/api/products` - Create new product (requires admin role)
+- **GET** `/api/products/:id` - Get specific product
+- **PUT** `/api/products/:id` - Update product (requires admin role)
+- **DELETE** `/api/products/:id` - Delete product (requires admin role)
+
+## Usage Examples
+
+### Authentication Examples
+
+#### Register
+
+```json
+POST /api/auth/register
+{
+  "username": "testuser",
+  "email": "test@example.com",
+  "password": "password123",
+  "confirmPassword": "password123"
+}
+```
+
+#### Login
+
+```json
+POST /api/auth/login
+{
+  "username": "testuser",
+  "password": "password123"
+}
+```
+
+#### Refresh Token
+
+```json
+POST /api/auth/refresh-token
+{
+  "refreshToken": "your-refresh-token-here"
+}
+```
+
+### Product Examples
+
+#### Get all products with pagination
+
+```
 GET /api/products?page=1&pageSize=5
+Authorization: Bearer your-access-token-here
+```
 
-# Filter by price range
+#### Filter products
 
-GET /api/products?minPrice=10&maxPrice=100
+```
+GET /api/products?minPrice=10&maxPrice=100&inStock=true&search=laptop
+Authorization: Bearer your-access-token-here
+```
 
-# Get only in-stock products
+#### Create product (Admin only)
 
-GET /api/products?inStock=true
-
-# Search products
-
-GET /api/products?search=laptop
-
-# Combine filters with pagination and sorting
-
-GET /api/products?page=1&pageSize=10&minPrice=50&inStock=true&orderBy=price&orderDescending=false
-
-# Create a product
-
+```json
 POST /api/products
+Authorization: Bearer your-access-token-here
 {
-"name": "Gaming Laptop",
-"description": "High-performance gaming laptop",
-"price": 1299.99,
-"stockQuantity": 10
+  "name": "Gaming Laptop",
+  "description": "High-performance gaming laptop",
+  "price": 1299.99,
+  "stockQuantity": 10
 }
+```
 
-# Update a product
+#### Update product (Admin only)
 
+```json
 PUT /api/products/1
+Authorization: Bearer your-access-token-here
 {
-"name": "Updated Gaming Laptop",
-"price": 1199.99
+  "name": "Updated Gaming Laptop",
+  "price": 1199.99
 }
+```
+
+#### Delete product (Admin only)
+
+```
+DELETE /api/products/1
+Authorization: Bearer your-access-token-here
+```
+
+## Response Structure
+
+Successful product responses will include:
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "name": "Gaming Laptop",
+    "description": "High-performance gaming laptop",
+    "price": 1299.99,
+    "stockQuantity": 10,
+    "createdAt": "2023-07-20T12:00:00Z",
+    "updatedAt": "2023-07-20T12:00:00Z"
+  }
+}
+```
+
+For paginated results:
+
+```json
+{
+  "success": true,
+  "data": {
+    "items": [...],
+    "total": 50,
+    "page": 1,
+    "pageSize": 10,
+    "totalPages": 5
+  }
+}
+```
+
+## Error Responses
+
+Common error responses include:
+
+- `401 Unauthorized` - Missing or invalid token
+- `403 Forbidden` - User doesn't have required permissions
+- `404 Not Found` - Product not found
+- `400 Bad Request` - Invalid input data
+
+Example:
+
+```json
+{
+  "success": false,
+  "error": "Product not found"
+}
+```
