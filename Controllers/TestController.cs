@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 namespace dot_net_web_api.Controllers;
 
 [ApiController]
-[Route("[controller]")]  // Auto-route: "/test"
+[Route("api/v1/[controller]")]  // Auto-route: "/test"
 public class TestController : ControllerBase
 {
     public static readonly object[] DataToReturn = new object[]
@@ -51,5 +51,5 @@ public class TestController : ControllerBase
         }
         return Ok(data);
     }
-    
+
 }

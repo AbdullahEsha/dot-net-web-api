@@ -7,7 +7,7 @@ using dot_net_web_api.Services.Interfaces;
 namespace dot_net_web_api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
@@ -83,7 +83,8 @@ namespace dot_net_web_api.Controllers
                 else
                     return BadRequest(new { success = false, message = "Invalid token" });
             }
-            catch (Exception ex){
+            catch (Exception ex)
+            {
                 return StatusCode(500, new { success = false, message = ex.Message });
             }
         }

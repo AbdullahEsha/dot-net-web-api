@@ -4,7 +4,7 @@ using dot_net_web_api.Services.Interfaces;  // Add this line
 
 namespace dot_net_web_api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
     {
