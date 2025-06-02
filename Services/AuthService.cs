@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using BCrypt.Net;
 using dot_net_web_api.Data;
 using dot_net_web_api.DTOs;
 using dot_net_web_api.Models.Entities;
@@ -65,11 +64,22 @@ namespace dot_net_web_api.Services
 
         public async Task<AuthResponseDto> LoginAsync(LoginDto loginDto)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == loginDto.Username);
+            // Check if the input is an email or username
+            User? user;
+            if (IsValidEmail(loginDto.Username))
+            {
+                // Login with email
+                user = await _context.Users.FirstOrDefaultAsync(u => u.Email == loginDto.Username);
+            }
+            else
+            {
+                // Login with username
+                user = await _context.Users.FirstOrDefaultAsync(u => u.Username == loginDto.Username);
+            }
 
             if (user == null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash))
             {
-                throw new UnauthorizedAccessException("Invalid username or password");
+                throw new UnauthorizedAccessException("Invalid username/email or password");
             }
 
             // Generate new tokens
@@ -97,6 +107,19 @@ namespace dot_net_web_api.Services
                     CreatedAt = user.CreatedAt
                 }
             };
+        }
+
+        private bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public async Task<AuthResponseDto> RefreshTokenAsync(RefreshTokenDto refreshTokenDto)

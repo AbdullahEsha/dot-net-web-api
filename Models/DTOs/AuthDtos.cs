@@ -25,7 +25,8 @@ namespace dot_net_web_api.DTOs
     public class LoginDto
     {
         [Required]
-        public string Username { get; set; } = null!;
+        [Display(Name = "Username or Email")]
+        public string Username { get; set; } = null!; // This field accepts both username and email
 
         [Required]
         public string Password { get; set; } = null!;

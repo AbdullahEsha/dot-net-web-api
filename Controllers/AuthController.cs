@@ -29,7 +29,7 @@ namespace dot_net_web_api.Controllers
             {
                 return BadRequest(new { success = false, message = ex.Message });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(500, new { success = false, message = "An error occurred during registration" });
             }
@@ -47,7 +47,7 @@ namespace dot_net_web_api.Controllers
             {
                 return Unauthorized(new { success = false, message = ex.Message });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(500, new { success = false, message = "An error occurred during login" });
             }
@@ -65,7 +65,7 @@ namespace dot_net_web_api.Controllers
             {
                 return Unauthorized(new { success = false, message = ex.Message });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(500, new { success = false, message = "An error occurred during token refresh" });
             }
@@ -83,9 +83,8 @@ namespace dot_net_web_api.Controllers
                 else
                     return BadRequest(new { success = false, message = "Invalid token" });
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { success = false, message = "An error occurred during token revocation" });
+            catch (Exception ex){
+                return StatusCode(500, new { success = false, message = ex.Message });
             }
         }
 
@@ -104,7 +103,7 @@ namespace dot_net_web_api.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { success = false, message = "An error occurred during token revocation" });
+                return StatusCode(500, new { success = false, message = ex.Message });
             }
         }
 
@@ -124,16 +123,18 @@ namespace dot_net_web_api.Controllers
                     success = true,
                     data = new
                     {
-                        id = userId,
-                        username = username,
-                        email = email,
-                        role = role
-                    }
+                        Id = userId,
+                        Username = username,
+                        Email = email,
+                        Role = role,
+                        CreatedAt = DateTime.UtcNow
+                    },
+                    message = "User retrieved successfully"
                 });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { success = false, message = "An error occurred" });
+                return StatusCode(500, new { success = false, message = ex.Message });
             }
         }
     }
