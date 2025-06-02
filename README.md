@@ -6,9 +6,12 @@
 http://localhost:8080/swagger/index.html
 ```
 
-<!-- docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Password@2025" \
+<!--
+ - docker rm sqlserver2022
+ - docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Password@2025" \
    -p 1433:1433 --name sqlserver2022 \
-   -d mcr.microsoft.com/mssql/server:2022-latest -->
+   -d mcr.microsoft.com/mssql/server:2022-latest
+-->
 
 # Get all products with pagination
 

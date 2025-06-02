@@ -1,16 +1,13 @@
-// dot_net_web_api/Services/IAuthService.cs
-using System.Threading.Tasks;
-using dot_net_web_api.Models.DTOs;
+using dot_net_web_api.DTOs;
 
-namespace dot_net_web_api.Services
+namespace dot_net_web_api.Services.Interfaces
 {
     public interface IAuthService
     {
-        Task<AuthResponse> RegisterAsync(RegisterRequest request, string ipAddress);
-        Task<AuthResponse> LoginAsync(LoginRequest request, string ipAddress);
-        Task<AuthResponse> RefreshTokenAsync(string refreshToken, string ipAddress);
-        Task<bool> RevokeTokenAsync(string refreshToken, string ipAddress);
-        Task<bool> ChangePasswordAsync(int userId, ChangePasswordRequest request);
-        Task<UserDto?> GetUserByIdAsync(int userId);
+        Task<AuthResponseDto> RegisterAsync(RegisterDto registerDto);
+        Task<AuthResponseDto> LoginAsync(LoginDto loginDto);
+        Task<AuthResponseDto> RefreshTokenAsync(RefreshTokenDto refreshTokenDto);
+        Task<bool> RevokeTokenAsync(string refreshToken);
+        Task<bool> RevokeAllTokensAsync(int userId);
     }
 }
