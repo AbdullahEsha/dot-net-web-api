@@ -7,10 +7,41 @@ http://localhost:8080/swagger/index.html
 ```
 
 <!--
- - docker rm sqlserver2022
- - docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Password@2025" \
-   -p 1433:1433 --name sqlserver2022 \
-   -d mcr.microsoft.com/mssql/server:2022-latest
+ # remove Migrations
+ rm -rf Migrations/
+
+ # Create a migration
+ dotnet ef migrations add InitialCreate
+
+ # In your project directory
+ dotnet ef database update
+
+ # Stop and remove the container
+ docker stop sqlserver2022
+ docker rm sqlserver2022
+
+ # Start fresh container
+ docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Password@2025" \
+    -p 1433:1433 --name sqlserver2022 \
+    -d mcr.microsoft.com/mssql/server:2022-latest
+
+ # Wait for it to be ready
+ sleep 15
+
+ # Check if it's running
+ docker ps
+
+ # Test connection
+ docker exec -it sqlserver2022 /opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P "Password@2025" -C
+
+ # Check if database exists
+ docker exec -it sqlserver2022 /opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P "Password@2025" -C -Q "SELECT name FROM sys.databases WHERE name = 'e_commerce_db'"
+
+ # List all tables in e_commerce_db
+ docker exec -it sqlserver2022 /opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P "Password@2025" -C -Q "USE e_commerce_db; SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'"
+
+ # Check Users table
+ docker exec -it sqlserver2022 /opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P "Password@2025" -C -Q "USE e_commerce_db; SELECT COUNT(*) as UserCount FROM Users"
 -->
 
 ## API Endpoints

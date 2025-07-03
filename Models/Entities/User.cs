@@ -28,6 +28,8 @@ namespace dot_net_web_api.Models.Entities
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
 
+        public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
     }

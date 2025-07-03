@@ -7,7 +7,7 @@ using dot_net_web_api.Services.Interfaces;
 namespace dot_net_web_api.Controllers
 {
     [ApiController]
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/[controller]")] // This creates route: api/v1/auth
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
@@ -29,9 +29,9 @@ namespace dot_net_web_api.Controllers
             {
                 return BadRequest(new { success = false, message = ex.Message });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(500, new { success = false, message = "An error occurred during registration" });
+                return StatusCode(500, new { success = false, message = "An error occurred during registration", error = ex.Message });
             }
         }
 
@@ -47,9 +47,9 @@ namespace dot_net_web_api.Controllers
             {
                 return Unauthorized(new { success = false, message = ex.Message });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(500, new { success = false, message = "An error occurred during login" });
+                return StatusCode(500, new { success = false, message = "An error occurred during login", error = ex.Message });
             }
         }
 
