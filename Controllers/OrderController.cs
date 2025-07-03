@@ -5,7 +5,7 @@ using dot_net_web_api.Services.Interfaces;
 namespace dot_net_web_api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     public class OrderController : ControllerBase
     {
         private readonly IOrderService _orderService;

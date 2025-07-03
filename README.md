@@ -10,6 +10,9 @@ http://localhost:8080/swagger/index.html
  # remove Migrations
  rm -rf Migrations/
 
+ # Drop the database
+ dotnet ef database drop --force
+
  # Create a migration
  dotnet ef migrations add InitialCreate
 
